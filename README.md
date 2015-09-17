@@ -16,7 +16,7 @@ Supports [FOP][fop] and [Antenna House][ah].
 
   <!-- Embed second page of PDF file -->
   <topicref href="file.pdf#page=2" format="pdf"/>
-  
+
   <!-- Embed external PDF file -->
   <topicref href="http://www.stat.berkeley.edu/~census/sample.pdf"
             format="pdf"
@@ -27,7 +27,9 @@ Supports [FOP][fop] and [Antenna House][ah].
 ## Install
 
 ```bash
-$ dita -install <url>
+$ cd /path/to/dita-ot/plugins
+$ git clone https://github.com/eerohele/fi.eerohele.embed-pdf.git
+$ ant -f /path/to/dita-ot/integrator.xml
 ```
 
 ## Limitations
