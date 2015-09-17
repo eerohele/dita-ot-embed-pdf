@@ -63,20 +63,4 @@
     </fo:page-sequence>
   </xsl:template>
 
-  <xsl:template match="ot-placeholder:pdf" mode="bookmark">
-    <fo:bookmark>
-      <xsl:if test="$bookmarkStyle ne 'EXPANDED'">
-        <xsl:attribute name="starting-state">hide</xsl:attribute>
-      </xsl:if>
-
-      <xsl:attribute name="internal-destination">
-        <xsl:call-template name="generate-toc-id"/>
-      </xsl:attribute>
-
-      <fo:bookmark-title>
-        <xsl:value-of select="@navtitle"/>
-      </fo:bookmark-title>
-    </fo:bookmark>
-  </xsl:template>
-
 </xsl:stylesheet>
