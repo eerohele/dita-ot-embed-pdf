@@ -25,4 +25,24 @@
     </xsl:attribute>
   </xsl:template>
 
+  <!--
+  Both FOP and Antenna House support embedding PDFs with URI references like
+  this:
+
+    href="file.pdf#page=2"
+
+  By default, DITA-OT interprets @href values like this as pointing to a topic
+  within the referenced file. Therefore, without any modification, in the merged
+  file, topicmergeImpl.xsl would generate a topicref like this:
+
+    <topicref href="file.pdf" id="page-2" ... />
+
+  This is not meaningful in this case, however — we just want to pass the @href
+  through without generating an @id attribute.
+  -->
+  <xsl:template
+    match="*[local:has-class(. ,'map/topicref')][@format eq 'pdf']/@href">
+    <xsl:sequence select="."/>
+  </xsl:template>
+
 </xsl:stylesheet>
