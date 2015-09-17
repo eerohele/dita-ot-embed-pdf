@@ -12,6 +12,8 @@
   <xsl:import href="functions.xsl"/>
   <xsl:import href="bookmarks.xsl"/>
 
+  <xsl:param name="msgprefix" as="xs:string">EPDX</xsl:param>
+
   <xsl:template match="/" name="rootTemplate">
     <xsl:call-template name="validateTopicRefs"/>
 
@@ -29,6 +31,15 @@
     match="*[dita-ot:has-class(., 'map/map')]">
     <xsl:next-match/>
     <xsl:apply-templates select="ot-placeholder:pdf"/>
+  </xsl:template>
+
+  <xsl:template priority="1"
+    match="*[dita-ot:has-class(., 'topic/topic')]/ot-placeholder:pdf">
+   <xsl:call-template name="output-message">
+     <xsl:with-param name="msgnum">001</xsl:with-param>
+     <xsl:with-param name="msgsev">E</xsl:with-param>
+     <xsl:with-param name="msgparams">%1=<xsl:value-of select="@href"/></xsl:with-param>
+   </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="ot-placeholder:pdf">

@@ -3,6 +3,8 @@
 <plugin id="com.github.eerohele.embedpdf">
   <require plugin="org.dita.pdf2"/>
 
+  <feature extension="dita.xsl.messages" file="resources/messages.xml"/>
+
   <feature extension="org.dita.pdf2.xsl.topicmerge"
     type="file" file="xsl/topicmerge.xsl"/>
 
