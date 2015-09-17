@@ -1,15 +1,16 @@
-<xsl:stylesheet
-  xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot"
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsl:stylesheet version="2.0"
   xmlns:fo="http://www.w3.org/1999/XSL/Format"
   xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
-  xmlns:opentopic="http://www.idiominc.com/opentopic"
-  xmlns:opentopic-index="http://www.idiominc.com/opentopic/index"
+  xmlns:local="urn:local-functions"
   xmlns:opentopic-func="http://www.idiominc.com/opentopic/exsl/function"
+  xmlns:opentopic-index="http://www.idiominc.com/opentopic/index"
+  xmlns:opentopic="http://www.idiominc.com/opentopic"
   xmlns:ot-placeholder="http://suite-sol.com/namespaces/ot-placeholder"
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  exclude-result-prefixes="opentopic-index opentopic opentopic-func ot-placeholder"
-  version="2.0">
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  exclude-result-prefixes="local opentopic-index opentopic opentopic-func ot-placeholder">
 
   <xsl:template name="createBookmarks">
     <xsl:variable name="bookmarks" as="element()*">
@@ -18,7 +19,7 @@
           <xsl:apply-templates select="/" mode="bookmark"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:for-each select="/*/*[contains(@class, ' topic/topic ')]">
+          <xsl:for-each select="/*/*[local:has-class(., 'topic/topic')]">
             <xsl:variable name="topicType">
               <xsl:call-template name="determineTopicType"/>
             </xsl:variable>
@@ -28,9 +29,9 @@
           </xsl:for-each>
 
           <xsl:choose>
-            <xsl:when test="$map//*[contains(@class,' bookmap/toc ')][@href]"/>
-            <xsl:when test="$map//*[contains(@class,' bookmap/toc ')]
-                          | /*[contains(@class,' map/map ')][not(contains(@class,' bookmap/bookmap '))]">
+            <xsl:when test="$map//*[local:has-class(., 'bookmap/toc')][@href]"/>
+            <xsl:when test="$map//*[local:has-class(., 'bookmap/toc')]
+                          | /*[local:has-class(., 'map/map')][not(local:has-class(., 'bookmap/bookmap'))]">
               <fo:bookmark internal-destination="{$id.toc}">
                 <fo:bookmark-title>
                   <xsl:call-template name="insertVariable">
@@ -42,7 +43,7 @@
           </xsl:choose>
 
           <xsl:for-each
-            select="/*/*[contains(@class, ' topic/topic ')]
+            select="/*/*[local:has-class(., 'topic/topic')]
                   | /*/ot-placeholder:glossarylist
                   | /*/ot-placeholder:tablelist
                   | /*/ot-placeholder:figurelist
@@ -57,10 +58,10 @@
 
           <xsl:if test="//opentopic-index:index.groups//opentopic-index:index.entry">
             <xsl:choose>
-              <xsl:when test="$map//*[contains(@class,' bookmap/indexlist ')][@href]"/>
+              <xsl:when test="$map//*[local:has-class(., 'bookmap/indexlist')][@href]"/>
               <xsl:when
-                test="$map//*[contains(@class,' bookmap/indexlist ')]
-                    | /*[contains(@class,' map/map ')][not(contains(@class,' bookmap/bookmap '))]">
+                test="$map//*[local:has-class(., 'bookmap/indexlist')]
+                    | /*[local:has-class(., 'map/map')][not(local:has-class(., 'bookmap/bookmap'))]">
                 <fo:bookmark internal-destination="{$id.index}">
                   <fo:bookmark-title>
                     <xsl:call-template name="insertVariable">

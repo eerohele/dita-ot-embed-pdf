@@ -1,13 +1,14 @@
-<xsl:stylesheet
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsl:stylesheet version="2.0"
   xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions"
-  xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot"
   xmlns:fo="http://www.w3.org/1999/XSL/Format"
   xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
+  xmlns:local="urn:local-functions"
   xmlns:ot-placeholder="http://suite-sol.com/namespaces/ot-placeholder"
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  exclude-result-prefixes="ot-placeholder"
-  version="2.0">
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  exclude-result-prefixes="local ot-placeholder">
 
   <xsl:import href="functions.xsl"/>
   <xsl:import href="bookmarks.xsl"/>
@@ -17,6 +18,7 @@
   <xsl:template match="/" name="rootTemplate">
     <xsl:call-template name="validateTopicRefs"/>
 
+    <!-- Add the FOP Extensions namespace into <fo:root>. -->
     <fo:root xsl:use-attribute-sets="__fo__root"
              xmlns:fox="http://xmlgraphics.apache.org/fop/extensions">
       <xsl:call-template name="createLayoutMasters"/>
@@ -28,13 +30,16 @@
   </xsl:template>
 
   <xsl:template mode="generatePageSequences"
-    match="*[dita-ot:has-class(., 'map/map')]">
+    match="*[local:has-class(., 'map/map')]">
     <xsl:next-match/>
     <xsl:apply-templates select="ot-placeholder:pdf"/>
   </xsl:template>
 
+  <!--
+  Embedding PDF documents in nested topics isn't currently supported.
+  -->
   <xsl:template priority="1"
-    match="*[dita-ot:has-class(., 'topic/topic')]/ot-placeholder:pdf">
+    match="*[local:has-class(., 'topic/topic')]/ot-placeholder:pdf">
    <xsl:call-template name="output-message">
      <xsl:with-param name="msgnum">001</xsl:with-param>
      <xsl:with-param name="msgsev">E</xsl:with-param>
@@ -45,7 +50,7 @@
   <xsl:template match="ot-placeholder:pdf">
     <xsl:apply-templates select="." mode="formatter">
       <xsl:with-param name="src" as="xs:anyURI"
-        select="dita-ot:resolve-href(@href, $input.dir.url)"/>
+        select="local:resolve-href(@href, $input.dir.url)"/>
 
       <xsl:with-param name="id" as="xs:string">
         <xsl:call-template name="generate-toc-id"/>
