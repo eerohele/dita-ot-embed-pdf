@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin id="com.github.eerohele.embedpdf">
+  <require plugin="org.dita.pdf2"/>
+
+  <feature extension="org.dita.pdf2.xsl.topicmerge"
+    type="file" file="xsl/topicmerge.xsl"/>
+
+  <feature extension="dita.xsl.xslfo" type="file" file="xsl/topic2fo.xsl"/>
+
+  <feature extension="dita.conductor.lib.import"
+    type="file" file="lib/fop-pdf-images-2.1.0.SNAPSHOT.jar"/>
+  <feature extension="dita.conductor.lib.import"
+    type="file" file="lib/jempbox-1.3.1.jar"/>
+  <feature extension="dita.conductor.lib.import"
+    type="file" file="lib/pdfbox-1.3.1.jar"/>
+  <feature extension="dita.conductor.lib.import"
+    type="file" file="lib/fontbox-1.3.1.jar"/>
+</plugin>
