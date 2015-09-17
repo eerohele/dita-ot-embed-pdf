@@ -1,5 +1,5 @@
 <messages>
-  <message id="EPDX001E" type="ERROR">
+  <message id="PDFX001E" type="ERROR">
     <reason>Cannot embed PDF document &quot;%1&quot; as a nested topic.</reason>
     <response/>
   </message>

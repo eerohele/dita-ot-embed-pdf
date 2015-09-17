@@ -13,8 +13,6 @@
   <xsl:import href="functions.xsl"/>
   <xsl:import href="bookmarks.xsl"/>
 
-  <xsl:param name="msgprefix" as="xs:string">EPDX</xsl:param>
-
   <xsl:template match="/" name="rootTemplate">
     <xsl:call-template name="validateTopicRefs"/>
 
