@@ -13,15 +13,27 @@ Supports [FOP][fop] via the [fop-pdf-images plugin][fop-pdf-images] and
 ```xml
 <map>
   <!-- Embed entire PDF file -->
-  <topicref href="file.pdf" format="pdf"/>
+  <topicref href="file.pdf" format="pdf">
+    <topicmeta>
+      <navtitle>Title #1</navtitle>
+    </topicmeta>
+  </topicref>
 
   <!-- Embed second page of PDF file -->
-  <topicref href="file.pdf#page=2" format="pdf"/>
+  <topicref href="file.pdf#page=2" format="pdf">
+    <topicmeta>
+      <navtitle>Title #2</navtitle>
+    </topicmeta>
+  </topicref>
 
   <!-- Embed external PDF file -->
   <topicref href="http://www.stat.berkeley.edu/~census/sample.pdf"
             format="pdf"
-            scope="external"/>
+            scope="external">
+    <topicmeta>
+      <navtitle>Title #3</navtitle>
+    </topicmeta>
+  </topicref>
 </map>
 ```
 
