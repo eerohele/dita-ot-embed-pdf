@@ -18,9 +18,11 @@
 
   <xsl:template mode="navtitle"
     match="*[local:has-class(., 'map/topicref')][@format eq 'pdf']">
-    <xsl:attribute name="navtitle"
-      select="(*[local:has-class(., 'map/topicmeta')]
-              /*[local:has-class(., 'topic/navtitle')], @navtitle)[1]"/>
+    <xsl:attribute name="navtitle">
+      <xsl:apply-templates
+        select="(*[local:has-class(., 'map/topicmeta')]
+                /*[local:has-class(., 'topic/navtitle')], @navtitle)[1]"/>
+    </xsl:attribute>
   </xsl:template>
 
 </xsl:stylesheet>
