@@ -1,7 +1,7 @@
 Embed PDF DITA-OT Plugin
 ========================
 
-Point to a PDF file in your DITA map to have it embedded in your PDF file.
+Embed a PDF document into the PDF file you generate from your DITA map.
 
 Supports [FOP][fop] via the [fop-pdf-images plugin][fop-pdf-images] and
 [Antenna House][ah].
