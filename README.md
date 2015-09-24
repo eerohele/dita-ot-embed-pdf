@@ -1,4 +1,4 @@
-Embed PDF DITA-OT Plugin
+DITA-OT Embed PDF Plugin
 ========================
 
 Embed a PDF document into the PDF file you generate from your DITA map.
@@ -42,13 +42,14 @@ Supports [FOP][fop] via the [fop-pdf-images plugin][fop-pdf-images] and
 ### DITA-OT 2.2+
 
 ```bash
-$ dita -install https://github.com/eerohele/dita-ot-embed-pdf/archive/master.zip
+$ dita -install https://github.com/eerohele/dita-ot-embed-pdf/releases/download/0.1.0/fi.eerohele.embed-pdf-0.1.0.zip
 ```
 
 ### DITA-OT 1.8.6+
 
 1. Download [the plugin ZIP file][zip].
-2. Unzip the ZIP file into the `plugins` directory of your DITA-OT installation.
+2. Extract the ZIP file into the `plugins` directory of your DITA-OT
+   installation.
 3. In the root directory of your DITA-OT installation, run:
 
     ```bash
@@ -72,4 +73,4 @@ $ dita -install https://github.com/eerohele/dita-ot-embed-pdf/archive/master.zip
 [dita-ot]: http://www.dita-ot.org
 [fop]: https://xmlgraphics.apache.org
 [fop-pdf-images]: https://xmlgraphics.apache.org/fop/fop-pdf-images.html
-[zip]: https://github.com/eerohele/dita-ot-embed-pdf/archive/master.zip
+[zip]: https://github.com/eerohele/dita-ot-embed-pdf/releases/download/0.1.0/fi.eerohele.embed-pdf-0.1.0.zip
