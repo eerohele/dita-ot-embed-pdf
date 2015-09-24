@@ -1,0 +1,42 @@
+<project name="embed-pdf" default="build" basedir=".">
+
+  <property file="build.properties"/>
+
+  <property name="fop-pdf-images.pkg-name"
+            value="fop-pdf-images-2.1.0.SNAPSHOT"/>
+
+  <target name="deps">
+    <get src="https://dist.apache.org/repos/dist/dev/xmlgraphics/binaries/${fop-pdf-images.pkg-name}-bin.zip"
+         dest="${java.io.tmpdir}"
+         skipExisting="true"/>
+
+    <unzip src="${java.io.tmpdir}/${fop-pdf-images.pkg-name}-bin.zip"
+           dest="${basedir}/lib">
+      <patternset>
+        <include name="${fop-pdf-images.pkg-name}/*"/>
+        <exclude name="**/javadocs"/>
+      </patternset>
+
+      <mapper>
+        <globmapper from="${fop-pdf-images.pkg-name}/*" to="*"/>
+      </mapper>
+    </unzip>
+  </target>
+
+  <target name="clean">
+    <delete dir="${basedir}/lib" includes="*/**"/>
+    <delete dir="${basedir}/target"/>
+  </target>
+
+  <target name="build" depends="deps">
+    <zip level="9"
+         destfile="${basedir}/target/${plugin.name}-${plugin.version}.zip">
+      <zipfileset dir="." prefix="${plugin.name}">
+        <exclude name="**/target/**"/>
+        <exclude name="build.xml"/>
+        <exclude name="build.properties"/>
+      </zipfileset>
+    </zip>
+  </target>
+
+</project>
