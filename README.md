@@ -6,7 +6,7 @@ Embed a PDF document into the PDF file you generate from your DITA map.
 Supports [FOP][fop] via the [fop-pdf-images plugin][fop-pdf-images] and
 [Antenna House][ah].
 
-**NOTE**: Requires [DITA-OT][dita-ot] 2.2.
+**NOTE**: Requires [DITA-OT][dita-ot] 1.8.6+ or 2.2+.
 
 ## Use
 
@@ -39,9 +39,21 @@ Supports [FOP][fop] via the [fop-pdf-images plugin][fop-pdf-images] and
 
 ## Install
 
+### DITA-OT 2.2+
+
 ```bash
-$ dita -install https://github.com/eerohele/fi.eerohele.embed-pdf/archive/master.zip
+$ dita -install https://github.com/eerohele/dita-ot-embed-pdf/archive/master.zip
 ```
+
+### DITA-OT 1.8.6+
+
+1. Download [the plugin ZIP file][zip].
+2. Unzip the ZIP file into the `plugins` directory of your DITA-OT installation.
+3. In the root directory of your DITA-OT installation, run:
+
+    ```bash
+    $ ant -f integrator.xml
+    ```
 
 ## Limitations
 
@@ -60,3 +72,4 @@ $ dita -install https://github.com/eerohele/fi.eerohele.embed-pdf/archive/master
 [dita-ot]: http://www.dita-ot.org
 [fop]: https://xmlgraphics.apache.org
 [fop-pdf-images]: https://xmlgraphics.apache.org/fop/fop-pdf-images.html
+[zip]: https://github.com/eerohele/dita-ot-embed-pdf/archive/master.zip
