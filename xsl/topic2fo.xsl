@@ -47,10 +47,10 @@
 
   <xsl:template match="ot-placeholder:pdf">
     <xsl:apply-templates select="." mode="formatter">
-      <xsl:with-param name="src" as="xs:anyURI"
+      <xsl:with-param name="src" as="xs:anyURI" tunnel="yes"
         select="local:resolve-href(@href, $input.dir.url)"/>
 
-      <xsl:with-param name="id" as="xs:string">
+      <xsl:with-param name="id" as="xs:string" tunnel="yes">
         <xsl:call-template name="generate-toc-id"/>
       </xsl:with-param>
     </xsl:apply-templates>
@@ -58,16 +58,16 @@
 
   <xsl:template mode="formatter"
     match="ot-placeholder:pdf[$pdfFormatter eq 'fop']">
-    <xsl:param name="src" as="xs:anyURI"/>
-    <xsl:param name="id" as="xs:string"/>
+    <xsl:param name="src" as="xs:anyURI" tunnel="yes"/>
+    <xsl:param name="id" as="xs:string" tunnel="yes"/>
 
     <fox:external-document src="url('{$src}')" id="{$id}"/>
   </xsl:template>
 
   <xsl:template mode="formatter"
     match="ot-placeholder:pdf[$pdfFormatter eq 'ah']">
-    <xsl:param name="src" as="xs:anyURI"/>
-    <xsl:param name="id" as="xs:string"/>
+    <xsl:param name="src" as="xs:anyURI" tunnel="yes"/>
+    <xsl:param name="id" as="xs:string" tunnel="yes"/>
 
     <fo:page-sequence id="{$id}"
       master-reference="body-sequence"
