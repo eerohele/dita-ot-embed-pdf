@@ -11,7 +11,7 @@
 
   <xsl:template priority="20" mode="build-tree"
     match="*[local:has-class(., 'map/topicref')][@format eq 'pdf']">
-    <ot-placeholder:pdf href="{@href}">
+    <ot-placeholder:pdf href="{@href}" class="{@class}">
       <xsl:apply-templates select="." mode="navtitle"/>
     </ot-placeholder:pdf>
   </xsl:template>

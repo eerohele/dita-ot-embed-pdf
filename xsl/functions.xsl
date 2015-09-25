@@ -38,4 +38,11 @@
             else resolve-uri($href, $against)"/>
   </xsl:function>
 
+  <xsl:function name="local:in-toc" as="xs:boolean">
+    <xsl:param name="el" as="element()"/>
+
+    <xsl:sequence
+      select="empty($el/@toc) or normalize-space($el/@toc) eq 'yes'"/>
+  </xsl:function>
+
 </xsl:stylesheet>
