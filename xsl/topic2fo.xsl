@@ -8,7 +8,7 @@
   xmlns:ot-placeholder="http://suite-sol.com/namespaces/ot-placeholder"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  exclude-result-prefixes="local ot-placeholder">
+  exclude-result-prefixes="local xs ot-placeholder">
 
   <xsl:import href="functions.xsl"/>
   <xsl:import href="bookmarks.xsl"/>
