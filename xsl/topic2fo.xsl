@@ -13,6 +13,18 @@
   <xsl:import href="functions.xsl"/>
   <xsl:import href="bookmarks.xsl"/>
 
+  <!-- Attribute sets -->
+
+  <xsl:attribute-set name="fop.embed-pdf">
+  </xsl:attribute-set>
+
+  <xsl:attribute-set name="axf.embed-pdf">
+    <xsl:attribute name="master-reference">body-sequence</xsl:attribute>
+    <xsl:attribute name="axf:background-repeat">paginate</xsl:attribute>
+  </xsl:attribute-set>
+
+  <!-- Templates -->
+
   <xsl:template match="/" name="rootTemplate">
     <xsl:call-template name="validateTopicRefs"/>
 
@@ -61,7 +73,8 @@
     <xsl:param name="src" as="xs:anyURI" tunnel="yes"/>
     <xsl:param name="id" as="xs:string" tunnel="yes"/>
 
-    <fox:external-document src="url('{$src}')" id="{$id}"/>
+    <fox:external-document src="url('{$src}')" id="{$id}"
+      xsl:use-attribute-sets="fop.embed-pdf"/>
   </xsl:template>
 
   <xsl:template mode="formatter"
@@ -69,10 +82,8 @@
     <xsl:param name="src" as="xs:anyURI" tunnel="yes"/>
     <xsl:param name="id" as="xs:string" tunnel="yes"/>
 
-    <fo:page-sequence id="{$id}"
-      master-reference="body-sequence"
-      axf:background-image="url('{$src}')"
-      axf:background-repeat="paginate">
+    <fo:page-sequence id="{$id}" axf:background-image="url('{$src}')"
+      xsl:use-attribute-sets="axf.embed-pdf">
       <fo:flow flow-name="xsl-region-body"/>
     </fo:page-sequence>
   </xsl:template>
