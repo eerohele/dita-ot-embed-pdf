@@ -14,10 +14,12 @@
 
   <!-- Attribute sets -->
 
-  <xsl:attribute-set name="fop.embed-pdf">
+  <xsl:attribute-set name="fop.embed-pdf"
+    use-attribute-sets="__force__page__count">
   </xsl:attribute-set>
 
-  <xsl:attribute-set name="axf.embed-pdf">
+  <xsl:attribute-set name="axf.embed-pdf"
+    use-attribute-sets="__force__page__count">
     <xsl:attribute name="master-reference">body-sequence</xsl:attribute>
     <xsl:attribute name="axf:background-repeat">paginate</xsl:attribute>
   </xsl:attribute-set>
