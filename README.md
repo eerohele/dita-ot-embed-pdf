@@ -11,30 +11,30 @@ Supports [FOP][fop] via the [fop-pdf-images plugin][fop-pdf-images] and
 ## Use
 
 ```xml
-<map>
+<bookmap>
   <!-- Embed entire PDF file -->
-  <topicref href="file.pdf" format="pdf">
+  <chapter href="file.pdf" format="pdf">
     <topicmeta>
       <navtitle>Title #1</navtitle>
     </topicmeta>
-  </topicref>
+  </chapter>
 
   <!-- Embed second page of PDF file -->
-  <topicref href="file.pdf#page=2" format="pdf">
+  <chapter href="file.pdf#page=2" format="pdf">
     <topicmeta>
       <navtitle>Title #2</navtitle>
     </topicmeta>
-  </topicref>
+  </chapter>
 
   <!-- Embed external PDF file -->
-  <topicref href="http://www.stat.berkeley.edu/~census/sample.pdf"
+  <appendix href="http://www.stat.berkeley.edu/~census/sample.pdf"
             format="pdf"
             scope="external">
     <topicmeta>
       <navtitle>Title #3</navtitle>
     </topicmeta>
-  </topicref>
-</map>
+  </appendix>
+</bookmap>
 ```
 
 ## Install
@@ -58,17 +58,28 @@ $ dita -install https://github.com/eerohele/dita-ot-embed-pdf/releases/download/
 
 ## Limitations
 
+- Doesn't work out of the box with regular DITA maps (`<map>`) on DITA-OT
+  2.x because of [map-based page sequence generation][dita-ot #1685], which is
+  enabled by default from DITA-OT 2.0 onwards. To make embedded PDFs work, add
+  this into your PDF plugin stylesheet:
+  
+  ```xml
+  <xsl:variable name="map-based-page-sequence-generation" as="xs:boolean"
+                  select="false()"/>
+  ```
+
 - Can't embed a PDF in a nested topicref. So this won't work:
 
     ```xml
-    <map>
-      <topicref href="topic1.dita">
+    <bookmap>
+      <chapter href="topic1.dita">
         <topicref href="file.pdf" format="pdf"/>
         ...
-      </topicref>
-    </map>
+      </chapter>
+    </bookmap>
     ```
 
+[dita-ot #1685]: https://github.com/dita-ot/dita-ot/issues/1685
 [ah]: http://www.antennahouse.com
 [dita-ot]: http://www.dita-ot.org
 [fop]: https://xmlgraphics.apache.org
