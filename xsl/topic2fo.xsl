@@ -11,8 +11,6 @@
   exclude-result-prefixes="local xs ot-placeholder">
 
   <xsl:import href="functions.xsl"/>
-  <xsl:import href="bookmarks.xsl"/>
-  <xsl:import href="toc.xsl"/>
 
   <!-- Attribute sets -->
 
