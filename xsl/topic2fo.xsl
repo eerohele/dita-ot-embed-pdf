@@ -40,12 +40,6 @@
     </fo:root>
   </xsl:template>
 
-  <xsl:template mode="generatePageSequences"
-    match="*[local:has-class(., 'map/map')]">
-    <xsl:next-match/>
-    <xsl:apply-templates select="ot-placeholder:pdf"/>
-  </xsl:template>
-
   <!--
   Embedding PDF documents in nested topics isn't currently supported.
   -->
@@ -53,12 +47,33 @@
     match="*[local:has-class(., 'topic/topic')]/ot-placeholder:pdf">
    <xsl:call-template name="output-message">
      <xsl:with-param name="msgnum">001</xsl:with-param>
-     <xsl:with-param name="msgsev">E</xsl:with-param>
+     <xsl:with-param name="msgsev">F</xsl:with-param>
      <xsl:with-param name="msgparams">%1=<xsl:value-of select="@href"/></xsl:with-param>
    </xsl:call-template>
   </xsl:template>
 
-  <xsl:template match="ot-placeholder:pdf">
+  <!--
+  Map-based page sequence processing doesn't support embedded PDFs because a
+  topic becomes an <fo:block> instead of <fo:page-sequence> and
+  <fox:external-document> is only allowed on the same level as
+  <fo:page-sequence>.
+  -->
+  <xsl:template priority="1" mode="processTopic"
+    match="ot-placeholder:pdf[$map-based-page-sequence-generation]">
+    <xsl:call-template name="output-message">
+      <xsl:with-param name="msgnum">002</xsl:with-param>
+      <xsl:with-param name="msgsev">F</xsl:with-param>
+      <xsl:with-param name="msgparams">%1=<xsl:value-of select="@href"/></xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="generatePageSequences"
+    match="*[local:has-class(., 'map/topicref')][local:format-is-pdf(.)]">
+    <xsl:apply-templates select="key('topic-id', @id)"/>
+  </xsl:template>
+
+  <xsl:template mode="#default generatePageSequences"
+    match="ot-placeholder:pdf">
     <xsl:apply-templates select="." mode="formatter">
       <xsl:with-param name="src" as="xs:anyURI" tunnel="yes"
         select="local:resolve-href(@href, $input.dir.url)"/>
