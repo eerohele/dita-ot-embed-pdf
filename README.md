@@ -6,7 +6,7 @@ Embed a PDF document into the PDF file you generate from your DITA map.
 Supports [FOP][fop] via the [fop-pdf-images plugin][fop-pdf-images] and
 [Antenna House][ah].
 
-**NOTE**: Requires [DITA-OT][dita-ot] 1.8.6+ or 2.2+.
+**Note**: Requires [DITA-OT][dita-ot] 1.8.6+ or 2.2+.
 
 ## Use
 
@@ -58,15 +58,18 @@ $ dita -install https://github.com/eerohele/dita-ot-embed-pdf/releases/download/
 
 ## Limitations
 
-- Doesn't work out of the box with regular DITA maps (`<map>`) on DITA-OT
-  2.x because of [map-based page sequence generation][dita-ot #1685], which is
-  enabled by default from DITA-OT 2.0 onwards. To make embedded PDFs work, add
-  this into your PDF plugin stylesheet:
-  
+- Doesn't work with [map-based page sequence generation][dita-ot #1685], which
+  is the default behavior from DITA-OT 2.0 onwards. This plugin therefore
+  disables map-based page sequence generation. You can re-enable it by adding
+  this in your PDF plugin stylesheet:
+
   ```xml
   <xsl:variable name="map-based-page-sequence-generation" as="xs:boolean"
                   select="false()"/>
   ```
+
+  **Note**: If you do this, you cannot embed PDFs in regular DITA maps (that is,
+  DITA maps whose root element is `<map>`).
 
 - Can't embed a PDF in a nested topicref. So this won't work:
 

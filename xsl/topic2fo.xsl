@@ -12,6 +12,24 @@
 
   <xsl:import href="functions.xsl"/>
 
+  <!--
+  Map-based page sequence processing doesn't support embedded PDFs because a
+  topic becomes an <fo:block> instead of <fo:page-sequence> and
+  <fox:external-document> is only allowed on the same level as
+  <fo:page-sequence>.
+
+  Since map-based page sequence generation is enabled by default from DITA-OT
+  2.0 onwards, we have to disable it. Users can enable it in their own PDF
+  plugin stylesheets.
+
+  This is probably bad behavior, but I'm not sure what other option there is,
+  since the $map-based-page-sequence-generation is not defined in DITA-OT 1.8,
+  which means that just enabling this plugin will break DITA-OT PDF generation
+  for all users unless they define the variable themselves.
+  -->
+  <xsl:variable name="map-based-page-sequence-generation"
+    as="xs:boolean" select="false()"/>
+
   <!-- Attribute sets -->
 
   <xsl:attribute-set name="fop.embed-pdf"
@@ -52,12 +70,6 @@
    </xsl:call-template>
   </xsl:template>
 
-  <!--
-  Map-based page sequence processing doesn't support embedded PDFs because a
-  topic becomes an <fo:block> instead of <fo:page-sequence> and
-  <fox:external-document> is only allowed on the same level as
-  <fo:page-sequence>.
-  -->
   <xsl:template priority="1" mode="processTopic"
     match="ot-placeholder:pdf[$map-based-page-sequence-generation]">
     <xsl:call-template name="output-message">
