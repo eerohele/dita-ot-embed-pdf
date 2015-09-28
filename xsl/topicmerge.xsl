@@ -10,14 +10,21 @@
   <xsl:import href="functions.xsl"/>
 
   <xsl:template priority="20" mode="build-tree"
-    match="*[local:has-class(., 'map/topicref')][@format eq 'pdf']">
-    <ot-placeholder:pdf href="{@href}" class="{@class}">
+    match="*[local:has-class(., 'map/topicref')][local:format-is-pdf(.)]">
+    <!--
+    Adding @class="- topic/topic " and generating the same ID for both
+    ot-placeholder:pdf and the topicref that points to PDF file will make the
+    default PDF2 stylesheets take the embedded PDF into account when creating
+    the TOC.
+    -->
+    <ot-placeholder:pdf id="{generate-id()}" class="- topic/topic ">
+      <xsl:apply-templates select="@href"/>
       <xsl:apply-templates select="." mode="navtitle"/>
     </ot-placeholder:pdf>
   </xsl:template>
 
   <xsl:template mode="navtitle"
-    match="*[local:has-class(., 'map/topicref')][@format eq 'pdf']">
+    match="*[local:has-class(., 'map/topicref')][local:format-is-pdf(.)]">
     <xsl:attribute name="navtitle">
       <xsl:apply-templates
         select="(*[local:has-class(., 'map/topicmeta')]
@@ -41,8 +48,21 @@
   through without generating an @id attribute.
   -->
   <xsl:template
-    match="*[local:has-class(. ,'map/topicref')][@format eq 'pdf']/@href">
+    match="*[local:has-class(. ,'map/topicref')][local:format-is-pdf(.)]/@href">
     <xsl:sequence select="."/>
+  </xsl:template>
+
+  <xsl:template
+    match="*[local:has-class(. ,'map/topicref')][local:format-is-pdf(.)]">
+    <xsl:copy>
+      <xsl:attribute name="id" select="generate-id()"/>
+
+      <!--
+      Add @locktitle="yes" to force DITA-OT to use the navtitle of the topicref.
+      -->
+      <xsl:attribute name="locktitle" select="'yes'"/>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
   </xsl:template>
 
 </xsl:stylesheet>
