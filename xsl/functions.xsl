@@ -38,4 +38,16 @@
             else resolve-uri($href, $against)"/>
   </xsl:function>
 
+  <xsl:function name="local:in-toc" as="xs:boolean">
+    <xsl:param name="el" as="element()"/>
+
+    <xsl:sequence
+      select="empty($el/@toc) or normalize-space($el/@toc) eq 'yes'"/>
+  </xsl:function>
+
+  <xsl:function name="local:format-is-pdf" as="xs:boolean">
+    <xsl:param name="el" as="element()"/>
+    <xsl:sequence select="normalize-space(lower-case($el/@format)) eq 'pdf'"/>
+  </xsl:function>
+
 </xsl:stylesheet>

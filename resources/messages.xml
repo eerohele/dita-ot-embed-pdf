@@ -1,6 +1,11 @@
 <messages>
-  <message id="PDFX001E" type="ERROR">
+  <message id="PDFX001F" type="FATAL">
     <reason>Cannot embed PDF document &quot;%1&quot; as a nested topic.</reason>
-    <response/>
+    <response>Change your DITA map so that the topicref that embeds the PDF is not the child of a topicref that points to a DITA resource.</response>
+  </message>
+
+  <message id="PDFX002F" type="FATAL">
+    <reason>Cannot embed PDF document &quot;%1&quot; because embedded PDFs currently don't work with map-based page sequence generation.</reason>
+    <response>Set the 'map-based-page-sequence-generation' variable to 'false()' in your PDF plugin stylesheet.</response>
   </message>
 </messages>

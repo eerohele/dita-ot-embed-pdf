@@ -8,10 +8,45 @@
   xmlns:ot-placeholder="http://suite-sol.com/namespaces/ot-placeholder"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  exclude-result-prefixes="local ot-placeholder">
+  exclude-result-prefixes="local xs ot-placeholder">
 
   <xsl:import href="functions.xsl"/>
-  <xsl:import href="bookmarks.xsl"/>
+
+  <!--
+  Map-based page sequence processing doesn't support embedded PDFs because a
+  topic becomes an <fo:block> instead of <fo:page-sequence> and
+  <fox:external-document> is only allowed on the same level as
+  <fo:page-sequence>.
+
+  Since map-based page sequence generation is enabled by default from DITA-OT
+  2.0 onwards, we have to disable it. Users can enable it in their own PDF
+  plugin stylesheets.
+
+  This is probably bad behavior, but I'm not sure what other option there is,
+  since the $map-based-page-sequence-generation is not defined in DITA-OT 1.8,
+  which means that just enabling this plugin will break DITA-OT PDF generation
+  for all users unless they define the variable themselves.
+  -->
+  <xsl:variable name="map-based-page-sequence-generation"
+    as="xs:boolean" select="false()"/>
+
+  <xsl:key name="topic-id" use="@id"
+    match="*[@id][contains(@class, ' topic/topic ')]
+         | ot-placeholder:*[@id]"/>
+
+  <!-- Attribute sets -->
+
+  <xsl:attribute-set name="fop.embed-pdf"
+    use-attribute-sets="__force__page__count">
+  </xsl:attribute-set>
+
+  <xsl:attribute-set name="axf.embed-pdf"
+    use-attribute-sets="__force__page__count">
+    <xsl:attribute name="master-reference">body-sequence</xsl:attribute>
+    <xsl:attribute name="axf:background-repeat">paginate</xsl:attribute>
+  </xsl:attribute-set>
+
+  <!-- Templates -->
 
   <xsl:template match="/" name="rootTemplate">
     <xsl:call-template name="validateTopicRefs"/>
@@ -27,10 +62,8 @@
     </fo:root>
   </xsl:template>
 
-  <xsl:template mode="generatePageSequences"
-    match="*[local:has-class(., 'map/map')]">
-    <xsl:next-match/>
-    <xsl:apply-templates select="ot-placeholder:pdf"/>
+  <xsl:template match="*" mode="generatePageSequences" priority="-1">
+    <xsl:apply-templates/>
   </xsl:template>
 
   <!--
@@ -40,17 +73,32 @@
     match="*[local:has-class(., 'topic/topic')]/ot-placeholder:pdf">
    <xsl:call-template name="output-message">
      <xsl:with-param name="msgnum">001</xsl:with-param>
-     <xsl:with-param name="msgsev">E</xsl:with-param>
+     <xsl:with-param name="msgsev">F</xsl:with-param>
      <xsl:with-param name="msgparams">%1=<xsl:value-of select="@href"/></xsl:with-param>
    </xsl:call-template>
   </xsl:template>
 
-  <xsl:template match="ot-placeholder:pdf">
+  <xsl:template priority="1" mode="processTopic"
+    match="ot-placeholder:pdf[$map-based-page-sequence-generation]">
+    <xsl:call-template name="output-message">
+      <xsl:with-param name="msgnum">002</xsl:with-param>
+      <xsl:with-param name="msgsev">F</xsl:with-param>
+      <xsl:with-param name="msgparams">%1=<xsl:value-of select="@href"/></xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="generatePageSequences"
+    match="*[local:has-class(., 'map/topicref')][local:format-is-pdf(.)]">
+    <xsl:apply-templates select="key('topic-id', @id)"/>
+  </xsl:template>
+
+  <xsl:template mode="#default generatePageSequences"
+    match="ot-placeholder:pdf">
     <xsl:apply-templates select="." mode="formatter">
-      <xsl:with-param name="src" as="xs:anyURI"
+      <xsl:with-param name="src" as="xs:anyURI" tunnel="yes"
         select="local:resolve-href(@href, $input.dir.url)"/>
 
-      <xsl:with-param name="id" as="xs:string">
+      <xsl:with-param name="id" as="xs:string" tunnel="yes">
         <xsl:call-template name="generate-toc-id"/>
       </xsl:with-param>
     </xsl:apply-templates>
@@ -58,21 +106,20 @@
 
   <xsl:template mode="formatter"
     match="ot-placeholder:pdf[$pdfFormatter eq 'fop']">
-    <xsl:param name="src" as="xs:anyURI"/>
-    <xsl:param name="id" as="xs:string"/>
+    <xsl:param name="src" as="xs:anyURI" tunnel="yes"/>
+    <xsl:param name="id" as="xs:string" tunnel="yes"/>
 
-    <fox:external-document src="url('{$src}')" id="{$id}"/>
+    <fox:external-document src="url('{$src}')" id="{$id}"
+      xsl:use-attribute-sets="fop.embed-pdf"/>
   </xsl:template>
 
   <xsl:template mode="formatter"
     match="ot-placeholder:pdf[$pdfFormatter eq 'ah']">
-    <xsl:param name="src" as="xs:anyURI"/>
-    <xsl:param name="id" as="xs:string"/>
+    <xsl:param name="src" as="xs:anyURI" tunnel="yes"/>
+    <xsl:param name="id" as="xs:string" tunnel="yes"/>
 
-    <fo:page-sequence id="{$id}"
-      master-reference="body-sequence"
-      axf:background-image="url('{$src}')"
-      axf:background-repeat="paginate">
+    <fo:page-sequence id="{$id}" axf:background-image="url('{$src}')"
+      xsl:use-attribute-sets="axf.embed-pdf">
       <fo:flow flow-name="xsl-region-body"/>
     </fo:page-sequence>
   </xsl:template>
