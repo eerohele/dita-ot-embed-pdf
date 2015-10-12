@@ -30,6 +30,10 @@
   <xsl:variable name="map-based-page-sequence-generation"
     as="xs:boolean" select="false()"/>
 
+  <xsl:key name="topic-id" use="@id"
+    match="*[@id][contains(@class, ' topic/topic ')]
+         | ot-placeholder:*[@id]"/>
+
   <!-- Attribute sets -->
 
   <xsl:attribute-set name="fop.embed-pdf"
@@ -56,6 +60,10 @@
 
       <xsl:apply-templates select="*" mode="generatePageSequences"/>
     </fo:root>
+  </xsl:template>
+
+  <xsl:template match="*" mode="generatePageSequences" priority="-1">
+    <xsl:apply-templates/>
   </xsl:template>
 
   <!--
