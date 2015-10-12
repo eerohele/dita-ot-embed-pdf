@@ -42,7 +42,7 @@ Supports [FOP][fop] via the [fop-pdf-images plugin][fop-pdf-images] and
 ### DITA-OT 2.2+
 
 ```bash
-$ dita -install https://github.com/eerohele/dita-ot-embed-pdf/releases/download/0.1.0/fi.eerohele.embed-pdf-0.1.0.zip
+$ dita -install https://github.com/eerohele/dita-ot-embed-pdf/releases/download/0.1.0/com.github.eerohele.embed-pdf-0.1.0.zip
 ```
 
 ### DITA-OT 1.8.6+
@@ -87,4 +87,4 @@ $ dita -install https://github.com/eerohele/dita-ot-embed-pdf/releases/download/
 [dita-ot]: http://www.dita-ot.org
 [fop]: https://xmlgraphics.apache.org
 [fop-pdf-images]: https://xmlgraphics.apache.org/fop/fop-pdf-images.html
-[zip]: https://github.com/eerohele/dita-ot-embed-pdf/releases/download/0.1.0/fi.eerohele.embed-pdf-0.1.0.zip
+[zip]: https://github.com/eerohele/dita-ot-embed-pdf/releases/download/0.1.0/com.github.eerohele.embed-pdf-0.1.0.zip

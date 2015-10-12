@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<plugin id="fi.eerohele.embed-pdf">
+<plugin id="com.github.eerohele.embed-pdf">
   <require plugin="org.dita.pdf2"/>
 
   <feature extension="dita.xsl.messages" file="resources/messages.xml"/>
