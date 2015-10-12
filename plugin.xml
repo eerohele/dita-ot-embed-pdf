@@ -26,6 +26,18 @@
   <feature extension="dita.conductor.lib.import"
     type="file" file="../org.dita.pdf2/fop/build/fop.jar"/>
 
+  <!-- DITA-OT 2.2 onwards -->
+  <feature extension="dita.conductor.lib.import"
+    type="file" file="../org.dita.pdf2.fop/fop/lib/avalon-framework-4.2.0.jar"/>
+  <feature extension="dita.conductor.lib.import"
+    type="file" file="../org.dita.pdf2.fop/fop/lib/batik-all-1.7.jar"/>
+  <feature extension="dita.conductor.lib.import"
+    type="file" file="../org.dita.pdf2.fop/fop/lib/commons-logging-1.0.4.jar"/>
+  <feature extension="dita.conductor.lib.import"
+    type="file" file="../org.dita.pdf2.fop/fop/lib/xmlgraphics-commons-1.5.jar"/>
+  <feature extension="dita.conductor.lib.import"
+    type="file" file="../org.dita.pdf2.fop/fop/build/fop.jar"/>
+
   <feature extension="dita.conductor.lib.import"
     type="file" file="lib/fop-pdf-images-2.1.0.SNAPSHOT.jar"/>
   <feature extension="dita.conductor.lib.import"
